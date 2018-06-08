@@ -27,7 +27,7 @@ This implementation is written in Python 3 and uses Tensorflow for the GCN learn
  To try our code, you can use the IPython notebook `demo.ipynb`.
 
 ## Example output
-![Nettack example result](nettack/example.png)
+![Nettack example result](https://raw.githubusercontent.com/danielzuegner/nettack/master/example.png)
   
 ## Contact
 Please contact zuegnerd@in.tum.de in case you have any questions.
