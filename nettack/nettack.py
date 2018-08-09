@@ -26,6 +26,8 @@ class Nettack:
 
         # Adjacency matrix
         self.adj = adj.copy().tolil()
+        self.adj_no_selfloops = self.adj.copy()
+        self.adj_no_selfloops.setdiag(0)
         self.adj_orig = self.adj.copy().tolil()
         self.u = u  # the node being attacked
         self.adj_preprocessed = utils.preprocess_graph(self.adj).tolil()
@@ -229,9 +231,8 @@ class Nettack:
 
         assert n < self.N-1, "number of influencers cannot be >= number of nodes in the graph!"
 
-        neighbors = self.adj[self.u].nonzero()[1]
-
-
+        neighbors = self.adj_no_selfloops[self.u].nonzero()[1]
+        assert self.u not in neighbors
 
         potential_edges = np.column_stack((np.tile(self.u, len(neighbors)),neighbors)).astype("int32")
 
