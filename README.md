@@ -8,7 +8,8 @@ Published at SIGKDD'18, August 2018, London, UK
 
 Copyright (C) 2018   
 Daniel Zügner   
-Technical University of Munich   
+Technical University of Munich    
+
 [Poster & Presentation Slides](https://www.kdd.in.tum.de/nettack)
 
 This implementation is written in Python 3 and uses Tensorflow for the GCN learning.
