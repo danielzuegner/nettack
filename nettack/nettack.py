@@ -22,7 +22,7 @@ class Nettack:
     Technical University of Munich
     """
 
-    def __init__(self, adj, X_obs, z_obs, W1, W2, u):
+    def __init__(self, adj, X_obs, z_obs, W1, W2, u, verbose=False):
 
         # Adjacency matrix
         self.adj = adj.copy().tolil()
@@ -54,6 +54,7 @@ class Nettack:
 
         self.influencer_nodes = []
         self.potential_edges = []
+        self.verbose = verbose
 
     def compute_cooccurrence_constraint(self, nodes):
         """
@@ -341,18 +342,19 @@ class Nettack:
         best_wrong_class = self.strongest_wrong_class(logits_start)
         surrogate_losses = [logits_start[self.label_u] - logits_start[best_wrong_class]]
 
-        print("##### Starting attack #####")
-        if perturb_structure and perturb_features:
-            print("##### Attack node with ID {} using structure and feature perturbations #####".format(self.u))
-        elif perturb_features:
-            print("##### Attack only using feature perturbations #####")
-        elif perturb_structure:
-            print("##### Attack only using structure perturbations #####")
-        if direct:
-            print("##### Attacking the node directly #####")
-        else:
-            print("##### Attacking the node indirectly via {} influencer nodes #####".format(n_influencers))
-        print("##### Performing {} perturbations #####".format(n_perturbations))
+        if self.verbose:
+            print("##### Starting attack #####")
+            if perturb_structure and perturb_features:
+                print("##### Attack node with ID {} using structure and feature perturbations #####".format(self.u))
+            elif perturb_features:
+                print("##### Attack only using feature perturbations #####")
+            elif perturb_structure:
+                print("##### Attack only using structure perturbations #####")
+            if direct:
+                print("##### Attacking the node directly #####")
+            else:
+                print("##### Attacking the node indirectly via {} influencer nodes #####".format(n_influencers))
+            print("##### Performing {} perturbations #####".format(n_perturbations))
 
         if perturb_structure:
 
@@ -378,8 +380,8 @@ class Nettack:
                                                                  np.setdiff1d(np.arange(self.N),
                                                                               np.array([self.u,infl])))) for infl in
                                                      self.influencer_nodes])
-
-                print("Influencer nodes: {}".format(self.influencer_nodes))
+                if self.verbose:
+                    print("Influencer nodes: {}".format(self.influencer_nodes))
             else:
                 # direct attack
                 influencers = [self.u]
@@ -387,7 +389,8 @@ class Nettack:
                 self.influencer_nodes = np.array(influencers)
         self.potential_edges = self.potential_edges.astype("int32")
         for _ in range(n_perturbations):
-            print("##### ...{}/{} perturbations ... #####".format(_+1, n_perturbations))
+            if self.verbose:
+                print("##### ...{}/{} perturbations ... #####".format(_+1, n_perturbations))
             if perturb_structure:
 
                 # Do not consider edges that, if removed, result in singleton edges in the graph.
@@ -427,10 +430,12 @@ class Nettack:
             if perturb_structure and perturb_features:
                 # decide whether to choose an edge or feature to change
                 if best_edge_score < best_feature_score:
-                    print("Edge perturbation: {}".format(best_edge))
+                    if self.verbose:
+                        print("Edge perturbation: {}".format(best_edge))
                     change_structure = True
                 else:
-                    print("Feature perturbation: {}".format(best_feature_ix))
+                    if self.verbose:
+                        print("Feature perturbation: {}".format(best_feature_ix))
                     change_structure=False
             elif perturb_structure:
                 change_structure = True

@@ -52,6 +52,9 @@ class GCN:
         if seed > -1:
             tf.set_random_seed(seed)
 
+        if An.format != "csr":
+            An = An.tocsr()
+
         with self.graph.as_default():
 
             with tf.variable_scope(name) as scope:
