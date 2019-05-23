@@ -34,6 +34,17 @@ This implementation is written in Python 3 and uses Tensorflow for the GCN learn
 ## Contact
 Please contact zuegnerd@in.tum.de in case you have any questions.
 
+## Citation
+Please cite our paper if you use the model or this code in your own work:
+```
+@inproceedings{zugner2018adversarial,
+  title={Adversarial Attacks on Neural Networks for Graph Data},
+  author={Z{\"u}gner, Daniel and Akbarnejad, Amir and G{\"u}nnemann, Stephan},
+  booktitle={SIGKDD},
+  pages={2847--2856},
+  year={2018},
+}
+```
 
 ## References
 ### Datasets
