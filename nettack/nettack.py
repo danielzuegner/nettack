@@ -256,7 +256,7 @@ class Nettack:
             if add_additional_nodes:  # Add additional influencers by connecting them to u first.
                 # Compute the set of possible additional influencers, i.e. all nodes except the ones
                 # that are already connected to u.
-                poss_add_infl = np.setdiff1d(np.arange(self.N), neighbors)
+                poss_add_infl = np.setdiff1d(np.setdiff1d(np.arange(self.N),neighbors), self.u)
                 n_possible_additional = len(poss_add_infl)
                 n_additional_attackers = n-len(neighbors)
                 possible_edges = np.column_stack((np.tile(self.u, n_possible_additional), poss_add_infl))
