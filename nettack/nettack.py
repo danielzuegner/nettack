@@ -671,7 +671,7 @@ def compute_log_likelihood(n, alpha, S_d, d_min):
     float: the estimated log likelihood
     """
 
-    return n * np.log(alpha) + n * alpha * np.log(d_min) + (alpha + 1) * S_d
+    return n * np.log(alpha) + n * alpha * np.log(d_min) - (alpha + 1) * S_d
 
 def filter_singletons(edges, adj):
     """
